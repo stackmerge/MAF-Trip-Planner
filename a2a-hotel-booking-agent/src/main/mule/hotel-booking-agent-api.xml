@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:a2a="http://www.mulesoft.org/schema/mule/a2a"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ms-bedrock="http://www.mulesoft.org/schema/mule/ms-bedrock"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ms-bedrock http://www.mulesoft.org/schema/mule/ms-bedrock/current/mule-ms-bedrock.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/a2a http://www.mulesoft.org/schema/mule/a2a/current/mule-a2a.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<ms-bedrock:config
+		name="Amazon_Bedrock_Configuration"
+		doc:name="Amazon Bedrock Configuration"
+		doc:id="87fd519a-2f45-4b9c-a2d0-ae7232453ef4">
+		<ms-bedrock:basic-connection
+			accessKey="${secure::aws.bedrock.access-key}"
+			secretKey="${secure::aws.bedrock.secret-key}" />
+	</ms-bedrock:config>
+	<http:listener-config name="HTTP_Listener_config"
+		doc:name="HTTP Listener config"
+		doc:id="c7869b49-a3f1-4682-80e7-bb34479b6b46">
+		<http:listener-connection host="${http.listener.host}"
+			port="${http.listener.port}" />
+	</http:listener-config>
+	<a2a:server-config name="A2A_Server"
+		doc:name="A2A Server" doc:id="fbd1702f-4590-4a02-8394-7ae7339aebd4">
+		<a2a:connection listenerConfig="HTTP_Listener_config"
+			agentPath="/hotels" />
+		<a2a:agent-card>
+			<a2a:json>{
+  "name": "Hotel Booking Agent",
+  "description": "Agent to search and book hotels.",
+  "version": "1.0.0",
+  "url": "${agent.card.url}",
+  "defaultInputModes": ["TEXT"],
+  "defaultOutputModes": ["TEXT"],
+  "capabilities": {
+    "chat": true
+  },
+  "skills": [
+    {
+      "id": "search_hotels",
+      "name": "Search Hotels",
+      "description": "Search hotels by location and dates.",
+      "tags": ["search"],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "location": { "type": "string" },
+          "checkInDate": { "type": "string" },
+          "checkOutDate": { "type": "string" }
+        },
+        "required": ["location", "checkInDate"]
+      }
+    },
+    {
+      "id": "book_hotel",
+      "name": "Book Hotel",
+      "description": "Book a hotel.",
+      "tags": ["booking"],
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "hotelId": { "type": "string" },
+          "guestName": { "type": "string" }
+        },
+        "required": ["hotelId", "guestName"]
+      }
+    }
+  ]
+}</a2a:json>
+		</a2a:agent-card>
+	</a2a:server-config>
+
+	<a2a:client-config name="A2A_Client"
+		doc:name="A2A Client" doc:id="d739605c-e06b-4693-ab91-537418721117">
+		<a2a:client-connection
+			serverUrl="${a2a.client.server-url}" />
+	</a2a:client-config>
+	<os:config name="ObjectStore_Config"
+		doc:name="ObjectStore Config"
+		doc:id="fc1a017b-5c96-4483-9a9c-fb5739b05c6c" />
+	<os:object-store name="Object_store"
+		doc:name="Object store" doc:id="e05f8e88-f378-444d-9974-d96a0f23381f"
+		maxEntries="${objectstore.max-entries}" entryTtl="${objectstore.entry-ttl}" entryTtlUnit="MINUTES"
+		expirationInterval="${objectstore.expiration-interval}" config-ref="ObjectStore_Config" />
+	<flow name="hotel-booking-agent-main-flow"
+		doc:id="5566e012-78f5-4d91-b23e-bfaff90f90e8">
+		<a2a:task-listener
+			doc:name="A2A Server - Task Listener"
+			doc:id="fb4acab7-04b0-42f0-a887-087d7d6149bc" config-ref="A2A_Server" />
+		<logger level="INFO" doc:name="Logger"
+			doc:id="0e4806d7-ebb2-4c9f-a4dd-d7394e2d369c"
+			message="flight booking agent processing started" />
+		<os:retrieve doc:name="Retrieve"
+			doc:id="2ae55db7-f1c9-4062-a9ee-519788d99208" key="sessionId"
+			target="sessionId" objectStore="Object_store">
+			<os:default-value><![CDATA[#[uuid()]]]></os:default-value>
+		</os:retrieve>
+		<logger level="INFO" doc:name="Logger"
+			doc:id="bed3b0e0-63e6-4de5-90fe-672b640f1d02"
+			message="session id from os - #[vars.sessionId]" />
+		<ms-bedrock:agent-chat doc:name="Agent chat"
+			doc:id="22f5a68c-017b-4966-9435-fcbf785fb21b"
+			config-ref="Amazon_Bedrock_Configuration" agentId="${secure::bedrock.agent-id}"
+			agentAliasId="${secure::bedrock.agent-alias-id}" prompt="#[payload.message.parts[0].text]"
+			sessionId="#[vars.sessionId]"/>
+		<logger level="INFO" doc:name="Logger"
+			doc:id="4c4a5341-c181-4ad3-ad8d-6072fce40aa1"
+			message="bedrock session id - #[payload.sessionId]" />
+		<os:store doc:name="Store"
+			doc:id="3897cb1a-0179-4ce8-baef-98d84ec25cf4" key="sessionId"
+			objectStore="Object_store">
+			<os:value><![CDATA[#[payload.sessionId]]]></os:value>
+		</os:store>
+		<logger level="INFO" doc:name="Logger" doc:id="3530aa5d-91b9-408e-a54b-47e26f6796de" message="bedrock response -- #[payload]" />
+		<ee:transform doc:name="Prepare Agent Response" doc:id="e67f9c98-7716-4f1c-b585-6113db1e40ee">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"kind": "message",
+	"messageId": uuid(),
+	"role": "agent",
+	"parts": [{
+		"kind": "text",
+		"text": payload.chunks.text[0]
+	}]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="73533b99-d15f-429f-9536-f701500e6550" message="mulesoft response -- #[payload]" />
+		<logger level="INFO" doc:name="Logger" doc:id="f169b2cb-9c43-4df3-ad7e-1e8e6ce9972a" message="flight booking agent processing completed" />
+	
+</flow>
+	<flow name="hotel-booking-agent-card-flow" doc:id="99009795-cf1c-4682-a9ef-de6591ca8566" >
+		<http:listener doc:name="Listener" doc:id="eb7abbdb-f20c-45c0-bd42-2d3f79a7a1a2" config-ref="HTTP_Listener_config" path="/card"/>
+		<a2a:get-card doc:name="A2A Client - Get Card" doc:id="1a65a9b0-f418-4e1a-a545-9f73af6a2f2c" config-ref="A2A_Client"/>
+	
+</flow>
+</mule>
