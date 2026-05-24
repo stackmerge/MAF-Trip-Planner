@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+
+	<secure-properties:config
+		name="Secure_Properties_Config"
+		file="local.secure.properties"
+		key="${encryption.key}"
+		doc:name="Secure Properties Config"
+		doc:id="c3d4e5f6-a7b8-9012-cdef-123456789012">
+		<secure-properties:encrypt algorithm="AES" mode="CBC" />
+	</secure-properties:config>
+
+	<configuration-properties
+		file="local.properties"
+		doc:name="Configuration Properties"
+		doc:id="c3d4e5f6-a7b8-9012-cdef-123456789013" />
+
+</mule>
