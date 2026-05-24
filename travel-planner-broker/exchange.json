@@ -1,0 +1,41 @@
+{
+  "main": "agent-network.yaml",
+  "name": "travel-planner-broker",
+  "classifier": "agent-network",
+  "organizationId": "Your Org ID",
+  "descriptorVersion": "1.0.0",
+  "tags": [],
+  "metadata": {
+    "variables": {
+      "openai": {
+        "apiKey": {
+          "description": "OpenAI API key",
+          "default": "",
+          "secret": true
+        }
+      },
+      "flight-booking-agent": {
+        "url": {
+          "description": "Flight Booking Agent URL",
+          "default": ""
+        }
+      },
+      "hotel-booking-agent": {
+        "url": {
+          "description": "Hotel Booking Agent URL",
+          "default": ""
+        }
+      },
+      "itinerary-agent": {
+        "url": {
+          "description": "Itinerary Agent URL",
+          "default": ""
+        }
+      }
+    }
+  },
+  "dependencies": [],
+  "groupId": "Your Org organizationId",
+  "assetId": "travel-planner-broker",
+  "version": "1.0.3"
+}

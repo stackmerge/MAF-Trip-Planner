@@ -1,0 +1,160 @@
+schemaVersion: 1.0.0
+label: Travel Planner Agent Network
+brokers:
+    trip-coordinator:
+        card:
+            protocolVersion: 0.3.0
+            name: Trip Coordinator
+            description: Orchestrates multi-city trip planning by coordinating with specialized agents for flights, hotels, and itinerary optimization
+            url: ${ingressgw.url}/trip-coordinator
+            capabilities:
+                pushNotifications: true
+            version: 1.0.0
+            securitySchemes: {}
+            defaultInputModes:
+                - application/json
+                - text/plain
+            defaultOutputModes:
+                - application/json
+                - text/plain
+            skills:
+                - id: multi-city-travel-planning
+                  name: Multi-City Travel Planning
+                  description: Plan comprehensive multi-city trips including flights, hotels, and optimized itineraries with AI recommendations
+                  examples:
+                      - Plan a 3-city European trip London, Paris, Rome for 10 days with budget under $3000
+                      - Create an itinerary for New York, Los Angeles, San Francisco business trip next month
+                      - Find the best flight routes and hotels for a family vacation to Tokyo, Kyoto, Osaka
+                  inputModes:
+                      - application/json
+                      - text/plain
+                  outputModes:
+                      - application/json
+                      - text/plain
+                  tags: ['travel', 'multi-city', 'flights', 'hotels', 'itinerary']
+
+                - id: search_flights
+                  name: Search International Flights
+                  description: Search and compare flight options within International or to/from International with price optimization and availability checking.
+                  examples:
+                      - "Find cheapest flights from Mumbai to Goa next month"
+                      - "Compare flight prices from Delhi to Bangalore for weekend travel"
+                  inputModes:
+                    - application/json
+                    - text/plain
+                  outputModes:
+                    - application/json
+                    - text/plain
+                  tags: ["flights", "search", "international", "domestic"]
+
+                - id: book_hotels
+                  name: Book International Hotels
+                  description: Search and book hotels across International based on location, dates, budget, and amenities preferences.
+                  examples:
+                      - "Find budget hotels in Jaipur for 3 nights"
+                      - "Book a luxury resort in Goa for honeymoon"
+                  inputModes:
+                    - application/json
+                    - text/plain
+                  outputModes:
+                    - application/json
+                    - text/plain
+                  tags: ["hotels", "accommodation", "international", "booking"]  
+
+                - id: create_itinerary
+                  name: Create International Itinerary
+                  description: Create detailed day-by-day itineraries for International trips including attractions, activities, transportation, and timing recommendations.
+                  examples:
+                      - "Create a 5-day Delhi itinerary covering historical sites"
+                      - "Plan daily activities for a week in Kerala"
+                  inputModes:
+                    - application/json
+                    - text/plain
+                  outputModes:
+                    - application/json
+                    - text/plain
+                  tags: ["itinerary", "planning", "international", "activities"]
+                                  
+        spec:
+            llm:
+                ref:
+                    name: open-ai
+                configuration:
+                    model: gpt-5-mini
+            instructions:
+                - "You are the International Trip Planner, a specialized travel planning assistant for trips to and within International."
+                - "Coordinate with flight, hotel, and itinerary agents to create comprehensive travel plans."
+                - "Always consider Indian cultural contexts, festivals, weather patterns, and regional preferences."
+                - "Provide budget-conscious options and highlight local experiences and authentic Indian culture."
+                - "When planning trips, consider factors like monsoon seasons, regional festivals, and local transportation options."
+                - "Integrate flight bookings, hotel reservations, and detailed itineraries into cohesive travel plans."
+            links:
+                - agent:
+                      ref:
+                          name: maf-flight-booking-agent
+                - agent:
+                      ref:
+                          name: maf-hotel-booking-agent
+                - agent:
+                      ref:
+                          name: maf-itinerary-agent
+
+agents:
+    maf-flight-booking-agent:
+        label: MAF Flight Booking Agent
+        metadata:
+            protocol: a2a
+            platform: MuleSoft
+            
+    maf-hotel-booking-agent:
+        label: MAF Hotel Booking Agent
+        metadata:
+            protocol: a2a
+            platform: MuleSoft
+            
+    maf-itinerary-agent:
+        label: MAF Itinerary Agent
+        metadata:
+            protocol: a2a
+            platform: MuleSoft
+
+llmProviders:
+    open-ai:
+        label: OpenAI
+        description: OpenAI LLM Provider
+        metadata:
+            platform: OpenAI
+
+mcpServers: {}
+
+connections:
+    my-open-ai-connection:
+        kind: llm
+        ref:
+            name: open-ai
+        spec:
+            url: https://api.openai.com/v1/
+            configuration:
+                apiKey: ${openai.apiKey}
+                timeout: 600000
+
+    maf-flight-agent-connection:
+        kind: agent
+        ref:
+            name: maf-flight-booking-agent
+        spec:
+            url: ${flight-booking-agent.url} 
+            
+    maf-hotel-agent-connection:
+        kind: agent
+        ref:
+            name: maf-hotel-booking-agent
+        spec:
+            url: ${hotel-booking-agent.url}
+            
+    maf-itinerary-agent-connection:
+        kind: agent
+        ref:
+            name: maf-itinerary-agent
+        spec:
+            url: ${itinerary-agent.url}                
