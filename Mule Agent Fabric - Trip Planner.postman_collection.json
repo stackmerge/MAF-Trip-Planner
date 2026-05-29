@@ -10,18 +10,7 @@
       "name": "Broker",
       "request": {
         "method": "POST",
-        "header": [
-          {
-            "key": "client_id",
-            "value": "e97747bdfc67494783189106970f7535",
-            "type": "text"
-          },
-          {
-            "key": "client_secret",
-            "value": "28C66D9CC82e44eA85e20ad9841b8B8A",
-            "type": "text"
-          }
-        ],
+        "header": [],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 12312414,\n  \"method\": \"message/send\",\n  \"params\": {\n    \"message\": {\n      \"role\": \"user\",\n      \"kind\": \"message\",\n      \"parts\": [\n        {\n          \"kind\": \"text\",\n          \"text\": \"Plan me a trip from Hyderabad to Dubai for 5 days from 20th June 2026 for 3 adults\"\n        }\n      ],\n      \"messageId\": \"d63065ec-14d4-403c-9023-dae73c9d7b1c\"\n    },\n    \"metadata\": {}\n  }\n}",
@@ -48,18 +37,7 @@
           "name": "Response",
           "originalRequest": {
             "method": "POST",
-            "header": [
-              {
-                "key": "client_id",
-                "value": "e97747bdfc67494783189106970f7535",
-                "type": "text"
-              },
-              {
-                "key": "client_secret",
-                "value": "28C66D9CC82e44eA85e20ad9841b8B8A",
-                "type": "text"
-              }
-            ],
+            "header": [],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 12312414,\n  \"method\": \"message/send\",\n  \"params\": {\n    \"message\": {\n      \"role\": \"user\",\n      \"kind\": \"message\",\n      \"parts\": [\n        {\n          \"kind\": \"text\",\n          \"text\": \"Plan me a trip from Hyderabad to Dubai for 5 days from 20th June 2026 for 3 adults\"\n        }\n      ],\n      \"messageId\": \"d63065ec-14d4-403c-9023-dae73c9d7b1c\"\n    },\n    \"metadata\": {}\n  }\n}",
