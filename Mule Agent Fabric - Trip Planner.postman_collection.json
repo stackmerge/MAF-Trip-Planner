@@ -1,0 +1,374 @@
+{
+  "info": {
+    "_postman_id": "0f2bee6a-bd96-4c1b-90d8-6e3335cc3ae1",
+    "name": "Mule Agent Fabric - Trip Planner",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "8037064"
+  },
+  "item": [
+    {
+      "name": "Broker",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "client_id",
+            "value": "e97747bdfc67494783189106970f7535",
+            "type": "text"
+          },
+          {
+            "key": "client_secret",
+            "value": "28C66D9CC82e44eA85e20ad9841b8B8A",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 12312414,\n  \"method\": \"message/send\",\n  \"params\": {\n    \"message\": {\n      \"role\": \"user\",\n      \"kind\": \"message\",\n      \"parts\": [\n        {\n          \"kind\": \"text\",\n          \"text\": \"Plan me a trip from Hyderabad to Dubai for 5 days from 20th June 2026 for 3 adults\"\n        }\n      ],\n      \"messageId\": \"d63065ec-14d4-403c-9023-dae73c9d7b1c\"\n    },\n    \"metadata\": {}\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://{{broker_host}}/trip-coordinator/",
+          "protocol": "https",
+          "host": [
+            "{{broker_host}}"
+          ],
+          "path": [
+            "trip-coordinator",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "client_id",
+                "value": "e97747bdfc67494783189106970f7535",
+                "type": "text"
+              },
+              {
+                "key": "client_secret",
+                "value": "28C66D9CC82e44eA85e20ad9841b8B8A",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 12312414,\n  \"method\": \"message/send\",\n  \"params\": {\n    \"message\": {\n      \"role\": \"user\",\n      \"kind\": \"message\",\n      \"parts\": [\n        {\n          \"kind\": \"text\",\n          \"text\": \"Plan me a trip from Hyderabad to Dubai for 5 days from 20th June 2026 for 3 adults\"\n        }\n      ],\n      \"messageId\": \"d63065ec-14d4-403c-9023-dae73c9d7b1c\"\n    },\n    \"metadata\": {}\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://{{broker_host}}/trip-coordinator/",
+              "protocol": "https",
+              "host": [
+                "{{broker_host}}"
+              ],
+              "path": [
+                "trip-coordinator",
+                ""
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "key": "Date",
+              "value": "Fri, 29 May 2026 10:20:48 GMT"
+            },
+            {
+              "key": "x-correlation-id",
+              "value": "4de0900c-9927-4177-a480-1d8ff838f1d6"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubdomains"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubdomains"
+            },
+            {
+              "key": "server",
+              "value": "Anypoint Flex Gateway"
+            },
+            {
+              "key": "x-envoy-decorator-operation",
+              "value": "[Agent] trip-coordinator"
+            },
+            {
+              "key": "transfer-encoding",
+              "value": "chunked"
+            },
+            {
+              "key": "Connection",
+              "value": "Keep-Alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"id\": 12312414,\n    \"jsonrpc\": \"2.0\",\n    \"result\": {\n        \"artifacts\": [],\n        \"contextId\": \"17aeb74d-b50c-438d-9e61-6d4e2ab6f78d\",\n        \"history\": [],\n        \"id\": \"f2ddf12d-58b4-4759-b2df-245813f5337d\",\n        \"kind\": \"task\",\n        \"status\": {\n            \"message\": {\n                \"kind\": \"message\",\n                \"messageId\": \"8e63a88d-2cf9-46eb-914d-6083aa5f6619\",\n                \"parts\": [\n                    {\n                        \"kind\": \"text\",\n                        \"text\": \"I can plan and (if you want) book a 5-day trip from Hyderabad (HYD) to Dubai (DXB) starting 20 June 2026 for 3 adults. Before I search flights and hotels, please confirm the following preferences (I’ll use sensible defaults if you want me to proceed without changes):\\n\\n1) Trip dates: I assume depart Hyderabad on 20 June 2026 and return on 25 June 2026 (5 nights). Is that correct, or do you prefer return on 24 June? \\n2) Booking vs Planning: Do you want me to only plan & recommend, or also make bookings? (If booking: I will need passenger names and passport details later.)\\n3) Cabin class: Economy (default), Premium Economy, Business?\\n4) Budget per person (approx): Budget / Mid-range / Luxury — or an INR/USD budget per person for flights + hotels?\\n5) Hotel preferences: star rating (3★/4★/5★), location preference (Downtown/Dubai Marina/Deira/Old Dubai/near airport), and room configuration (one triple room or two rooms?).\\n6) Airport transfers: Do you want airport pickup/drop included? Private transfer or shared/taxi?\\n7) Activities & interests: Must-see attractions (Burj Khalifa, Desert Safari, Dubai Mall, Global Village [seasonal], etc.), shopping, food experiences, cultural sites, or relaxed beach time? Any mobility or dietary considerations?\\n8) Any flexibility on flight times (red-eye vs daytime), or preferred airlines (e.g., Emirates, IndiGo, Air India)?\\n\\nIf you confirm (or tell me to use defaults: return 25 Jun, economy, mid-range budget, 4★ hotel in Dubai Marina, one triple room, include private airport transfer, and a mix of sightseeing + desert safari), I will: \\n- Call the flight agent to search the best round-trip options for 3 adults for the confirmed dates. \\n- Call the hotel agent to find 3–4 hotel options matching your budget and location preference. \\n- Call the itinerary agent to build a detailed day-by-day plan with local transport recommendations, estimated costs, and cultural notes (weather in June: very hot; plan morning/evening outdoor activities and indoor afternoons; Ramadan/Eid considerations if applicable). \\n\\nPlease reply with your choices for items 1–8 (or say “use defaults” to proceed).\"\n                    }\n                ],\n                \"role\": \"agent\",\n                \"taskId\": \"f2ddf12d-58b4-4759-b2df-245813f5337d\"\n            },\n            \"state\": \"input-required\",\n            \"timestamp\": \"2026-05-29T10:20:47.81346496Z\"\n        },\n        \"url\": \"https://agent-network-ingress-gw-vjnby1.h3zv28.aus-s1.cloudhub.io/trip-coordinator/\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Flight Booking Agent",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 12312414,\n  \"method\": \"message/send\",\n  \"params\": {\n    \"message\": {\n      \"role\": \"user\",\n      \"kind\": \"message\",\n      \"parts\": [\n        {\n          \"kind\": \"text\",\n          \"text\": \"Hi\"\n        }\n      ],\n      \"messageId\": \"d63065ec-14d4-403c-9023-dae73c9d7b1c\"\n    },\n    \"metadata\": {}\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://{{flight-booking-agent-host}}/flight",
+          "protocol": "https",
+          "host": [
+            "{{flight-booking-agent-host}}"
+          ],
+          "path": [
+            "flight"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 12312414,\n  \"method\": \"message/send\",\n  \"params\": {\n    \"message\": {\n      \"role\": \"user\",\n      \"kind\": \"message\",\n      \"parts\": [\n        {\n          \"kind\": \"text\",\n          \"text\": \"Hi\"\n        }\n      ],\n      \"messageId\": \"d63065ec-14d4-403c-9023-dae73c9d7b1c\"\n    },\n    \"metadata\": {}\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://{{flight-booking-agent-host}}/flight",
+              "protocol": "https",
+              "host": [
+                "{{flight-booking-agent-host}}"
+              ],
+              "path": [
+                "flight"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "757"
+            },
+            {
+              "key": "x-correlation-id",
+              "value": "0115704a-fa5c-4ef8-8b63-d78380567779"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubdomains"
+            },
+            {
+              "key": "Connection",
+              "value": "Keep-Alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 12312414,\n    \"result\": {\n        \"role\": \"agent\",\n        \"parts\": [\n            {\n                \"text\": \"Welcome! 👋 I'm your flight booking assistant. I'm here to help you search, compare, and book flights.\\n\\nTo get started, I'll need a few details:\\n\\n- 🛫 **Departure city** – Where are you flying from?\\n- 🛬 **Destination city** – Where are you headed?\\n- 📅 **Travel date** – When do you plan to depart?\\n- 🔄 **Trip type** – One-way or round trip? (If round trip, return date?)\\n- 👥 **Passengers** – How many travelers?\\n- 💺 **Travel class** – Economy, Business, or First Class?\\n\\nPlease share these details and I'll find the best available flights for you! ✈️\",\n                \"kind\": \"text\"\n            }\n        ],\n        \"messageId\": \"05904e8d-5423-40c0-a40a-f76d44cbb91d\",\n        \"kind\": \"message\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Hotel Booking Agent",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 12312414,\n  \"method\": \"message/send\",\n  \"params\": {\n    \"message\": {\n      \"role\": \"user\",\n      \"kind\": \"message\",\n      \"parts\": [\n        {\n          \"kind\": \"text\",\n          \"text\": \"Hi\"\n        }\n      ],\n      \"messageId\": \"d63065ec-14d4-403c-9023-dae73c9d7b1c\"\n    },\n    \"metadata\": {}\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://{{hotel-booking-agent-host}}/hotels",
+          "protocol": "https",
+          "host": [
+            "{{hotel-booking-agent-host}}"
+          ],
+          "path": [
+            "hotels"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 12312414,\n  \"method\": \"message/send\",\n  \"params\": {\n    \"message\": {\n      \"role\": \"user\",\n      \"kind\": \"message\",\n      \"parts\": [\n        {\n          \"kind\": \"text\",\n          \"text\": \"Hi\"\n        }\n      ],\n      \"messageId\": \"d63065ec-14d4-403c-9023-dae73c9d7b1c\"\n    },\n    \"metadata\": {}\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://{{hotel-booking-agent-host}}/hotels",
+              "protocol": "https",
+              "host": [
+                "{{hotel-booking-agent-host}}"
+              ],
+              "path": [
+                "hotels"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "896"
+            },
+            {
+              "key": "x-correlation-id",
+              "value": "04f35487-66d9-483d-bec4-dee60c1b81b4"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubdomains"
+            },
+            {
+              "key": "Connection",
+              "value": "Keep-Alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 12312414,\n    \"result\": {\n        \"role\": \"agent\",\n        \"parts\": [\n            {\n                \"text\": \"Namaste! 🙏 Welcome to your Hotel Booking Assistant!\\n\\nI'm here to help you with all your hotel needs — whether it's searching for the perfect stay, comparing options, making a booking, or managing an existing reservation across India and popular international destinations.\\n\\nHere's what I can help you with:\\n- 🏨 **Search & Compare Hotels** — by city, locality, dates, and budget\\n- 📅 **Book Hotel Rooms** — Budget to Luxury, all categories\\n- ✏️ **Modify or Cancel Bookings**\\n- ❓ **Answer Hotel-related Queries** — policies, amenities, nearby attractions\\n\\n**How can I assist you today?** Are you looking to book a hotel somewhere? Please share your destination and travel dates, and I'll get started! 😊\",\n                \"kind\": \"text\"\n            }\n        ],\n        \"messageId\": \"a9c66cd8-e132-457a-9232-58fe671fc1b6\",\n        \"kind\": \"message\"\n    }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Iternary Agent",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 12312414,\n  \"method\": \"message/send\",\n  \"params\": {\n    \"message\": {\n      \"role\": \"user\",\n      \"kind\": \"message\",\n      \"parts\": [\n        {\n          \"kind\": \"text\",\n          \"text\": \"Plan me a trip from Hyderabad to Dubai for 5 days from 20th June 2026 for 3 adults\"\n        }\n      ],\n      \"messageId\": \"d63065ec-14d4-403c-9023-dae73c9d7b1c\"\n    },\n    \"metadata\": {}\n  }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://{{itinerary-agent-host}}/itinerary",
+          "protocol": "https",
+          "host": [
+            "{{itinerary-agent-host}}"
+          ],
+          "path": [
+            "itinerary"
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Response",
+          "originalRequest": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"jsonrpc\": \"2.0\",\n  \"id\": 12312414,\n  \"method\": \"message/send\",\n  \"params\": {\n    \"message\": {\n      \"role\": \"user\",\n      \"kind\": \"message\",\n      \"parts\": [\n        {\n          \"kind\": \"text\",\n          \"text\": \"Plan me a trip from Hyderabad to Dubai for 5 days from 20th June 2026 for 3 adults\"\n        }\n      ],\n      \"messageId\": \"d63065ec-14d4-403c-9023-dae73c9d7b1c\"\n    },\n    \"metadata\": {}\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://{{itinerary-agent-host}}/itinerary",
+              "protocol": "https",
+              "host": [
+                "{{itinerary-agent-host}}"
+              ],
+              "path": [
+                "itinerary"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": null,
+          "header": [
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "1486"
+            },
+            {
+              "key": "x-correlation-id",
+              "value": "9e726c79-46ec-4315-af35-53547788054e"
+            },
+            {
+              "key": "Strict-Transport-Security",
+              "value": "max-age=31536000; includeSubdomains"
+            },
+            {
+              "key": "Connection",
+              "value": "Keep-Alive"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n    \"jsonrpc\": \"2.0\",\n    \"id\": 12312414,\n    \"result\": {\n        \"role\": \"agent\",\n        \"parts\": [\n            {\n                \"text\": \"Before I craft the perfect itinerary, I have a few quick questions to make it truly personalized for you! 🌟\\n\\n**Just need a few details:**\\n\\n1. **Travel Style** — Budget 💰 | Mid-range 🏨 | Luxury ✨\\n2. **Interests** — What excites you most? (e.g., Shopping / Desert Adventure / Beaches & Water Parks / Fine Dining / Sightseeing & Culture — or a mix!)\\n3. **Pace** — Relaxed 😎 | Moderate 🚶 | Packed & Action-Packed 🏃\\n4. **Traveler Profiles** — Are all 3 adults of similar age group? Any seniors or differently-abled travelers we should plan around?\\n5. **Dietary Preferences** — Vegetarian / Non-veg / Vegan? (Important for Dubai restaurant picks!)\\n6. **Any must-dos or must-avoids?** (e.g., \\\"We MUST do the Burj Khalifa\\\" or \\\"No extreme adventure activities\\\")\\n\\n> 💡 **Quick heads-up on timing:** June in Dubai is **peak summer** — temperatures hit **38–42°C** ☀️🔥. The upside? **Indoor attractions** (Dubai Mall, Aquariums, Theme Parks) are heavily air-conditioned and **hotel rates drop significantly** compared to winter season. It's very much doable with the right planning — I'll make sure the itinerary is heat-smart!\\n\\nAlso, do you already have **flights and hotels** sorted, or would you like me to check availability for those too after the itinerary? 🛫🏨\",\n                \"kind\": \"text\"\n            }\n        ],\n        \"messageId\": \"74b02966-d45d-47a0-8680-0929cc782e07\",\n        \"kind\": \"message\"\n    }\n}"
+        }
+      ]
+    }
+  ]
+}
